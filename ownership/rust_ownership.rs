@@ -7,12 +7,24 @@
 //------------------------------------
 
 // premitive variable type has fixed size cannot grow (integer, float, character, boolean, Array)
+// premitive variables are stored in stack
+
 // non-premitive variable type can grow ( String, Vector )
+// non-premitive variable type are stored in heap
 
 // copy occurs in premitive variable types 
 // move occurs in non-premitive variable types 
 // move changes the ownership
 // reference leads to borrowing
+
+// Example
+// let x: f64 = 32.6; // premitive variable stored in stack
+// let y: f64 = x; // copy occurs i.e; value of x is copied over y
+
+// let s1: String = String::from("abc"); // non premitive stored in heap
+// let s2: String = s1; // move occurs i.e; owner of string "abc" is changed to s2
+// let s3: &String = &s1; // borrowing value without affecting ownership
+// let s4: String = s1.clone(); // cloning so that s4 is owner of different string "abc"
 
 fn main(){
     let x: f64 = 32.6;
