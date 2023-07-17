@@ -1,3 +1,8 @@
+//-----------------------------
+// Arrays
+// Syntax: [type;length]
+//
+
 fn main(){
     let mut number_array:[i32;5] = [4,5,6,7,9];
 
