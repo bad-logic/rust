@@ -43,14 +43,14 @@ fn main(){
     let some_char: char = 'a';
     let char_str:String = some_char.to_string();
 
-    let my_name:String = "bhattarai".to_string();
+    let my_name:String = "Marley".to_string();
 
     let empty_string = String::new();
 
     println!("Length is {}", empty_string.len());
 
-    let s1:String = "Bhattarai".to_string();
-    let s2:String = "Roshan".to_string();
+    let s1:String = "Marley".to_string();
+    let s2:String = "Bob".to_string();
 
     let s3:String = format!("{} {}",s2,s1);
 
