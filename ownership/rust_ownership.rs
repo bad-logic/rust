@@ -19,7 +19,7 @@
 
 // Example
 // let x: f64 = 32.6; // premitive variable stored in stack
-// let y: f64 = x; // copy occurs i.e; value of x is copied over y
+// let y: f64 = x; // copy occurs i.e; value of x is copied over to y
 
 // let s1: String = String::from("abc"); // non premitive stored in heap
 // let s2: String = s1; // move occurs i.e; owner of string "abc" is changed to s2
