@@ -4,12 +4,12 @@
 //          - implement deref or drop traits
 //---------------------------------------------
 
-struct MySmartPointer{
-    value: i32
+struct MySmartPointer<T: std::fmt::Debug>{
+    value: T
 }
 
-impl MySmartPointer{
-    fn new(x:i32)->MySmartPointer {
+impl<T: std::fmt::Debug> MySmartPointer<T>{
+    fn new(x:T)->MySmartPointer<T> {
         MySmartPointer { value: x }
     }
 }
@@ -22,12 +22,19 @@ impl MySmartPointer{
     
 use std::ops::Deref;
 
-impl Deref for MySmartPointer{
-    type Target = i32;
-    fn deref(&self)-> &i32{
+// impl Deref for MySmartPointer{
+//     type Target = i32;
+//     fn deref(&self)-> &i32{
+//         &self.value
+//     }
+// }
+impl<T: std::fmt::Debug> Deref for MySmartPointer<T>{
+    type Target = T;
+    fn deref(&self)-> &T{
         &self.value
     }
 }
+
 
 // standard library implementation of Drop trait
 /*
@@ -36,12 +43,23 @@ impl Deref for MySmartPointer{
     }
 
 */
-impl Drop for MySmartPointer{
+
+// impl Drop for MySmartPointer{
+//     fn drop(&mut self){
+//         println!("Dropping MySmartPointer object from memory {:?}",self.value);
+//     }
+// }
+
+impl<T: std::fmt::Debug> Drop for MySmartPointer<T>{
     // this function is called when the MySmartPointer goes out of scope
     // gives back the memory allocated for that MySmartPointer
     fn drop(&mut self){
         println!("Dropping MySmartPointer object from memory {:?}",self.value);
     }
+}
+
+fn my_fn(str:&str){
+    println!("The string received from the main is {}",str);
 }
 
 
@@ -61,7 +79,18 @@ fn main(){
    println!("{}",a == *sptr1); // *sptr1 = *(sptr1.deref())
    // deref always return the reference to the inner value
 
-//    drop(sptr1);
+   // drop(sptr1);
 
+   // deref coersions in smart pointers
+
+    let sptr = MySmartPointer::new("Bob");
+    my_fn(&sptr); // &MySmartPointer -> &String -> &str
+
+
+    let some_vec = MySmartPointer::new(vec![1,2,3]);
+
+    for z in &*some_vec{
+        println!("The value is {}",z);
+    }
 
 }
