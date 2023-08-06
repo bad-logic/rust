@@ -4,6 +4,7 @@
 //          - pointer itself will be stored on the stack
 //          - handy while working with recursive types
 //          - allows only one owner at a time
+//          - enforces borrowing rule at compile time
 //-----------------------------------
 
 // enum List{ //recursive type `List` has infinite size
