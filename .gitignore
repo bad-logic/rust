@@ -4,3 +4,5 @@
 !*/ 
 # unignore anything with extension thus ignoring files without extension
 !*.*
+
+target/

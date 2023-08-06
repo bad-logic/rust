@@ -43,3 +43,9 @@ build and run project:
 ```
 $ cargo run
 ```
+
+test
+
+```
+$ cargo test
+```
