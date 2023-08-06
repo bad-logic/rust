@@ -1,5 +1,9 @@
 //-----------------------------------
 //      Box Smart Pointers
+//          - used to store data on the heap
+//          - pointer itself will be stored on the stack
+//          - handy while working with recursive types
+//          - allows only one owner at a time
 //-----------------------------------
 
 // enum List{ //recursive type `List` has infinite size
