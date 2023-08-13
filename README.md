@@ -6,6 +6,11 @@ https://www.rust-lang.org/learn
 
 https://doc.rust-lang.org/book/
 
+https://doc.rust-lang.org/rust-by-example/
+
+rust lib:
+https://lib.rs
+
 Compile:
 
 ```
