@@ -2,6 +2,7 @@
 //      correct search results using word grouping 
 //          - Description
 //              - given a list of words, group the words that are anagrams
+//                  return the group that a word belongs to
 // 
 //          - Tools
 //              - Hashmaps, Nested Loops
@@ -10,6 +11,7 @@
 // 'a' as u32 => ascii value for a => 65
 // 'b' as u32 => ascii value for b => 66
 // 'c' as u32 => ascii value for c => 67
+
 
 use std::collections::HashMap;
 
