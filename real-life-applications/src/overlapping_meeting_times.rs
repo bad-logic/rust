@@ -1,5 +1,5 @@
 //----------------------------------
-//      Employee with no meeting
+//      Employee with meeting
 //          - Description
 //              - Given meeting schedule of employees, we want to determine
 //                  the overlapping time
