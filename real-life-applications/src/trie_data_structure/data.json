@@ -1,0 +1,77 @@
+{
+  "root": {
+    "children": {
+      "t": {
+        "children": {
+          "h": {
+            "children": {
+              "e": {
+                "children": {
+                  "r": {
+                    "children": {
+                      "e": {
+                        "children": {},
+                        "is_word": true
+                      }
+                    },
+                    "is_word": false
+                  },
+                  "i": {
+                    "children": {
+                      "r": {
+                        "children": {},
+                        "is_word": true
+                      }
+                    },
+                    "is_word": false
+                  }
+                },
+                "is_word": true
+              }
+            },
+            "is_word": false
+          }
+        },
+        "is_word": false
+      },
+      "a": {
+        "children": {
+          "b": {
+            "children": {
+              "c": {
+                "children": {},
+                "is_word": true
+              }
+            },
+            "is_word": false
+          },
+          "n": {
+            "children": {
+              "y": {
+                "children": {},
+                "is_word": true
+              }
+            },
+            "is_word": false
+          }
+        },
+        "is_word": true
+      },
+      "b": {
+        "children": {
+          "y": {
+            "children": {
+              "e": {
+                "children": {},
+                "is_word": true
+              }
+            },
+            "is_word": true
+          }
+        },
+        "is_word": false
+      }
+    },
+    "is_word": false
+  }
+}
