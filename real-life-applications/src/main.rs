@@ -1,173 +1,162 @@
 //-----------------------------------------------------
 // 
-//          Most Recently used product
+//          Displaying Participant of an online meeting
 //              - Description
-//                  - A business is interesting in knowing the products that has been
-//                       purchased most recently by a customer
+//                  - Retrieving list of paginated view of the participants in an online meeting
+//                  
 //  
 //          - Tools
-//              - Hashmaps + Doubly Link List
+//              - BST + Stack
 // 
 //-----------------------------------------------------
 
-use std::borrow::BorrowMut;
-use std::rc::Rc;
 use std::cell::RefCell;
-use std::collections::HashMap;
+use std::rc::Rc;
 
-#[derive(Debug,Clone)]
-struct Node{
-    element: i32,
-    next: Pointer,
-    prev: Pointer
+#[derive(Debug,Default,PartialEq,Eq,Clone)]
+struct Node {
+    left: Link,
+    value: String,
+    right: Link,
 }
 
-impl Node{
-    fn new(x:i32)-> Rc<RefCell<Self>>{
-        Rc::new(RefCell::new(Node{
-            prev:None,
-            element: x,
-            next: None,
-        }))
-    }
-}
+type Link = Option<Rc<RefCell<Node>>>;
 
-type Pointer = Option<Rc<RefCell<Node>>>;
+impl Node {
+    fn new(val:String) ->Self{
+        Self { left: None, value:val, right: None }
+    }    
 
-#[derive(Default,Debug,Clone)]
-struct List{
-    head: Pointer,
-    tail: Pointer
-}
-
-impl List {
-    fn new() -> List{
-        List{
-            head: None,
-            tail: None
-        }
-    }
-
-    fn push_back(&mut self,element:i32)-> Pointer{
-        let new_tail = Node::new(element);
-        match self.tail.take(){
-            Some(old_tail) => {
-                old_tail.borrow_mut().next = Some(new_tail.clone());
-                new_tail.borrow_mut().prev = Some(old_tail.clone());
-                self.tail = Some(new_tail);
-            },
-            None => {
-                self.head = Some(new_tail.clone());
-                self.tail = Some(new_tail);
-            }
-        }
-        self.tail.clone()
-    }
-    
-    fn remove_front(&mut self)-> Option<Pointer>{
-        if self.head.is_none(){
-            println!("the list is empty, cannot remove");
-        }else{
-            self.head.take().map(|old_head| {
-                match old_head.borrow_mut().next.take(){
-                    Some(new_head) => {
-                        new_head.borrow_mut().prev.take();
-                        self.head = Some(new_head);
-                        self.head.clone()
-                    },
-                    None => {
-                        self.tail.take();
-                        println!("List is empty after removal");
-                        None
-                    }
+    fn insert(&mut self, val:String){
+        if val > self.value{
+            match &self.right {
+                Some(right) => {
+                    right.borrow_mut().insert(val);
+                },
+                None => {
+                    self.right = Some(Rc::new(RefCell::new(Node::new(val))))
                 }
-            });
-        }
-        Some(self.head.clone())
-    }
-
-    fn move_to_tail(&mut self, node: &Rc<RefCell<Node>>){
-        let prev = node.borrow().prev.as_ref().map(|a| Rc::clone(a));
-        let next = node.borrow().next.as_ref().map(|a| Rc::clone(a));
-        match ( prev, next ){
-            (None, None) => {
-                // already a tail
-            },
-            (Some(_),None) => {
-                // already a tail
-            },
-            (None,Some(next)) =>{
-                node.borrow_mut().next = None;
-                node.borrow_mut().prev = None;
-                self.head = Some(next.clone());
-                
-                let prev_tail = self.tail.as_ref().unwrap();
-                prev_tail.borrow_mut().next = Some(node.clone());
-                self.tail = Some(node.clone());
-                
-            },
-            (some(prev),Some(next))=>{
-                node.borrow_mut().next = None;
-                prev.borrow_mut().next = Some(next.clone());
-                next.borrow_mut().prev = Some(prev.clone());
-
-                let prev_tail = self.tail.as_ref().unwrap();
-                prev_tail.borrow_mut().next = Some(node.clone());
-                node.borrow_mut().prev = Some(prev_tail.clone());
-                self.tail = Some(node.clone());
-
+            }
+        }else{
+            match &self.left {
+                Some(left) => {
+                    left.borrow_mut().insert(val);
+                },
+                None => {
+                    self.left = Some(Rc::new(RefCell::new(Node::new(val))))
+                }
             }
         }
     }
+}
 
+#[derive(Debug,Default,PartialEq,Eq)]
+struct BinarySearchTree {
+    root: Node
+}
+
+impl BinarySearchTree {
+    fn new(val:String)->Self{
+        Self { root: Node::new(val) }
+    }
+
+    fn insert(&mut self,val:String) {
+        self.root.insert(val);
+    }
 }
 
 #[derive(Debug)]
-struct MRP_ITEM { // most recently purchased MRP
-    map: HashMap<i32, Rc<RefCell<Node>>>,
-    item_list: List,
-    size: i32,
-    capacity: i32,
+struct DisplayLobby{
+    stack: Vec<Rc<RefCell<Node>>>
 }
 
-impl  MRP_ITEM {
-    fn new(capacity:i32) -> Self{
-        Self{
-            map:HashMap::new(),
-            item_list: List::new(),
-            size: 0,
-            capacity
+impl DisplayLobby {
+    fn new(root: Option<Rc<RefCell<Node>>>)-> Self{
+        let mut stack = Vec::new();
+        Self::push_all_left(root,&mut stack);
+        DisplayLobby { stack }
+    }
+
+    fn push_all_left(mut p:Option<Rc<RefCell<Node>>>, stack: &mut Vec<Rc<RefCell<Node>>>){
+        while let Some(link) = p.clone() {
+            stack.push(p.clone().unwrap());
+            p = link.borrow().left.clone();
         }
     }
 
-    fn purchase (&mut self,prod_id:i32){
-        if let Some(node) = self.map.get(&prod_id){
-            self.item_list.move_to_tail(node);
-        }else {
-            if self.size >= self.capacity{
-                let prev_head = self.item_list.remove_front().unwrap();
-                self.map.remove(&prev_head.unwrap().borrow().element);
+    fn next_name(&mut self) -> String{
+        let node = self.stack.pop().unwrap();
+        let name = &node.borrow().value;
+
+        let next_node = node.borrow().right.clone();
+
+        Self::push_all_left(next_node, &mut self.stack);
+        name.to_string()
+    }
+
+    fn next_page(&mut self) -> Vec<String> {
+        let mut resultant_names = Vec::new();
+        for i in 0..10{
+            if !self.stack.is_empty(){
+                resultant_names.push(self.next_name());
+            }else{
+                break;
             }
-            let node = self.item_list.push_back(prod_id).unwrap();
-            self.map.insert(prod_id,node);
-            self.size += 1;
         }
-    }
-
-    fn print(&self){
-        let mut traversal = self.item_list.head.clone();
-        while !traversal.is_none(){
-            let temp = traversal.clone().unwrap();
-            print!("{}",temp.borrow().element);
-            traversal = temp.borrow().next.clone();
-        }
-        println!();
+        resultant_names
     }
 }
 
 fn main(){
-    let mut items_list = MRP_ITEM::new(3);
-    items_list.purchase(10);
-    items_list.print();
+     
+   let mut bst = BinarySearchTree::new("Monica".to_string());
+   let names_list = vec![
+    "Chandler",
+    "Ross",
+    "Phoebe",
+    "Rachel",
+    "Joey",
+    "Ursula",
+    "Mike",
+    "Gunther",
+    "Janice",
+    "Ben",
+    "Emma",
+    "Bonnie",
+    "Kathy",
+    "Mona",
+    "Julie",
+    "Carol",
+    "Emily",
+    "Susan",
+    "Amy",
+    "Jill",
+    "Pete",
+    "Judy",
+    "Jack",
+    "Frank",
+    "Nora",
+    "Janine",
+    "Estelle",
+   ];
+
+   for name in names_list {
+    bst.insert(name.to_string());
+   }
+
+   println!("{:?}",bst);
    
+   println!();
+
+   let mut display = DisplayLobby::new(Some(Rc::new(RefCell::new(bst.root))));
+
+   println!("display loggy {:?}",display);
+   println!("Participants on the first page {:?}",display.next_page());
+
+   println!("Participants on the second page {:?}",display.next_page());
+
+   println!("Participants on the third page {:?}",display.next_page());
+   println!("Participants on the fourth page {:?}",display.next_page());
+
+
 }
