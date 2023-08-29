@@ -1,4 +1,4 @@
-rust
+### Rust-Resources
 
 https://google.github.io/comprehensive-rust/
 
@@ -10,7 +10,10 @@ https://doc.rust-lang.org/rust-by-example/
 
 https://rust-unofficial.github.io/too-many-lists
 
-rust lib:
+https://docs.rust-embedded.org
+
+https://os.phil-opp.com
+
 https://lib.rs
 
 Compile:
