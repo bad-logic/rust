@@ -29,5 +29,5 @@ fn quadruple<T: Double>(x:T) -> T{
 
 fn main(){
     println!("quadruple of 5 = {}", quadruple(5_i32));
-    println!("quadruple of 5 = {}", quadruple(5_i64));// error
+    // println!("quadruple of 5 = {}", quadruple(5_i64));// error
 }

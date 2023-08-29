@@ -1,0 +1,16 @@
+{
+  "rust-analyzer.linkedProjects": [
+    "basics/Cargo.toml",
+    "testing/Cargo.toml",
+    "iterators-lifetimes-and-closures/Cargo.toml",
+    "control-structures/Cargo.toml",
+    "macros question mark and partial move/Cargo.toml",
+    "modules/Cargo.toml",
+    "ownership/Cargo.toml",
+    "real-life-applications/Cargo.toml",
+    "smart pointers/Cargo.toml",
+    "structs/Cargo.toml",
+    "traits/Cargo.toml",
+    "enums/Cargo.toml"
+  ]
+}
