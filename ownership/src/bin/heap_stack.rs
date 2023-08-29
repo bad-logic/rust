@@ -58,7 +58,7 @@ fn square_sum(num1:i32,num2:i32) -> i32{
 }
 
 fn square(num:i32) -> i32{
-    num * num;
+    num * num
 }
 
 

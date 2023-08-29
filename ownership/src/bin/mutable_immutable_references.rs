@@ -46,7 +46,7 @@ fn main(){
     let mut heap_num:Vec<i32> = vec![1,2,3,4,5];
     let ref1:&Vec<i32> = &heap_num;// scope of ref1 starts here
     let ref2:&Vec<i32> = &heap_num; // scope of ref2 starts here
-    heap_num.pop();// changing data when ref1 and ref2 immutable references are in scope
+    // heap_num.pop();// changing data when ref1 and ref2 immutable references are in scope
     println!("ref1: {:?}, ref2: {:?}",ref1,ref2);// scope of ref1 and ref2 ends here
 
 

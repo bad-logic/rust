@@ -18,9 +18,9 @@ fn main(){
 
     // lifetime of name and the struct should be same
     // thus below line will result in error
-    // if we remove the below line code will compile just fine as the struct and name have
-    // same lifetime
+    // if we remove the below line code will compile just fine as the struct 
+    // and name have same lifetime
 
-    println!("The name of the person is {} and his age is {}",p1.name, p1.age);
+    // println!("The name of the person is {} and his age is {}",p1.name, p1.age);
 
 }

@@ -1,5 +1,4 @@
 
-
 fn main(){
     basic_fn();
     function_with_inputs("Bob",40_000);
@@ -33,7 +32,7 @@ fn main(){
         .read_line(&mut user_input)
         .expect("failed to read input.");
 
-    let user_input: f64 = scalar .trim().parse().expect("invalid input");
+    let user_input: f64 = user_input.trim().parse().expect("invalid input");
 
     println!("user input: {}",user_input);
 
