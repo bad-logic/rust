@@ -11,6 +11,7 @@
     "smart pointers/Cargo.toml",
     "structs/Cargo.toml",
     "traits/Cargo.toml",
-    "enums/Cargo.toml"
+    "enums/Cargo.toml",
+    "concurrency/Cargo.toml"
   ]
 }
