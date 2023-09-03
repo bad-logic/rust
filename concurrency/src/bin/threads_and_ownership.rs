@@ -24,7 +24,7 @@ fn main(){
     });
 
     drop(x); // drop does not work with primitive data type
-    println!("vector: {:?}",v);//  v has been moved to the thread, ownership changed so invalid
+    // println!("vector: {:?}",v);//  v has been moved to the thread, ownership changed so invalid
     println!("x: {}",x); // move action has different impact on primitive type
     handle.join();
 }
