@@ -2,7 +2,9 @@
 
 https://google.github.io/comprehensive-rust/
 
-https://www.rust-lang.org/learn
+https:doc.rust-lang.org/
+
+https://www.rust-lang.org/1.30.0/book/first-edition
 
 https://doc.rust-lang.org/book/
 
