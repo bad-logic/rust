@@ -7,8 +7,8 @@ fn main(){
         println!("waiting for job 2 to complete");
         // thread::park();
         thread::park_timeout(Duration::from_secs(2));
-        // thread::sleep(Duration::from_secs(2));
-        // thread::yield_now();
+        // thread::sleep(Duration::from_secs(2)); 
+        // thread::yield_now(); // gives up its running time to os
 
         println!("--- Job 1 resumed ---");
         println!("--- Job 1 finished");
