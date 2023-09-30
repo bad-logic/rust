@@ -18,6 +18,9 @@ https://os.phil-opp.com
 
 https://lib.rs
 
+// lints for performance
+https://github.com/rust-lang/rust-clippy
+
 Compile:
 
 ```
