@@ -35,6 +35,14 @@ async fn main(){
         _ = aw2 => println!("Function 2 is completed first"),
     };
 
+    println!("JOIN");
+
+    // makes sure both functions are executed
+    tokio::join!{
+        function_1(),
+        function_2()
+    };
+
 }
 
 
