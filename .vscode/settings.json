@@ -12,6 +12,7 @@
     "structs/Cargo.toml",
     "traits/Cargo.toml",
     "enums/Cargo.toml",
-    "concurrency/Cargo.toml"
+    "concurrency/Cargo.toml",
+    "performance/Cargo.toml"
   ]
 }
