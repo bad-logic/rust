@@ -64,3 +64,15 @@ test
 ```
 $ cargo test
 ```
+
+bench marking
+
+```
+$ cargo bench
+```
+
+clipping lints
+
+```
+$ cargo clippy
+```
