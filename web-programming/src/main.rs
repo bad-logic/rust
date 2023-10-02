@@ -44,10 +44,13 @@ fn handle_connection(mut stream: TcpStream){
 
     // CHECKING PATH BEFORE SENDING RESPONSE
 
-    let mut request_line = buf_reader.lines().next();
+    let request_line = buf_reader.lines().next();
 
     let (status_line, file_name) = match request_line.unwrap().unwrap().as_str() {
-        "GET / HTTP/1.1" => (Some("HTTP/1.1 200 OK \r\n"), Some("index.html")),
+        "GET / HTTP/1.1" => {
+            thread::sleep(Duration::from_secs(10));
+            (Some("HTTP/1.1 200 OK \r\n"), Some("index.html"))
+        }
         "GET /index HTTP/1.1" => (Some("HTTP/1.1 200 OK \r\n"), Some("index.html")),
         _ => (Some("HTTP/1.1 400 NOT FOUND \r\n"), Some("notFound.html")),
     };
@@ -62,6 +65,7 @@ fn handle_connection(mut stream: TcpStream){
 fn main(){
 
     let listener = TcpListener::bind("127.0.0.1:8000").unwrap();
+    println!("HTTP Server running on localhost:8000/");
 
     // accepts single request and exits
     // let stream = listener.accept();
@@ -76,31 +80,38 @@ fn main(){
     //     }
     // }
 
-    let mut active_request = Arc::new(Mutex::new(0));
+    let active_requests = Arc::new(Mutex::new(0));
 
     // always keep accepting incoming requests
     for stream in listener.incoming(){
-        let active_requests = Arc::clone(&active_request);
+        let active_requests = Arc::clone(&active_requests);
         let mut stream = stream.unwrap();
 
-        thread::spawn(move||{
-            let mut connection = active_requests.lock().unwrap();
-            *connection += 1;
 
-            if *connection >= 3{
-                // thread::sleep(Duration::from_secs(2));
-                let response = "HTTP/1.1 429 Too Many Requests\r\n\r\n";
-                stream.write(response.as_bytes()).unwrap();
-                stream.flush().unwrap();
-                return
+        thread::spawn(move||{
+            let mut handled = false;
+            {
+                // acquiring lock inside block so that it is released once block ends
+                let mut connection = active_requests.lock().unwrap();
+                *connection += 1;
+                if *connection >= 3{
+                    let response = "HTTP/1.1 429 Too Many Requests \r\n";
+                    stream.write(response.as_bytes()).unwrap();
+                    stream.flush().unwrap();
+                    handled = true;
+                }
+            }
+
+            if !handled {
+                handle_connection(stream);
             }
             
-            handle_connection(stream);
 
             {
                 let mut connection = active_requests.lock().unwrap();
                 *connection -= 1;
             }
+
         });
 
     }
